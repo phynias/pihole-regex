@@ -1,7 +1,9 @@
 #########################################
 # Build stage
 #########################################
-FROM arevindh/pihole
+FROM arevindh/pihole:latest
 
-RUN curl -sSl https://raw.githubusercontent.com/mmotti/pihole-regex/master/install.py | sudo python3 && \
-  rm -rf /var/cache/apt/archives /var/lib/apt/lists/*
+RUN apt-get update && \
+    apt-get install -y python3-minimal && \
+    curl -sSl https://raw.githubusercontent.com/mmotti/pihole-regex/master/install.py | /usr/bin/python3 && \
+    rm -rf /var/cache/apt/archives /var/lib/apt/lists/*
