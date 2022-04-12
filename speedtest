@@ -1,0 +1,1 @@
+0 * * * *	/var/www/html/admin/scripts/pi-hole/speedtest/speedtest-official.sh > /dev/null 2>&1

@@ -2,6 +2,7 @@
 # Build stage
 #########################################
 FROM arevindh/pihole:latest
+COPY speedtest /etc/cron.d/speedtest
 
 RUN apt-get update && \
     apt-get install -y python3-minimal && \
