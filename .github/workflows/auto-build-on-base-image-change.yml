@@ -10,7 +10,7 @@ on:
   workflow_dispatch:
     inputs:
       force_build:
-        description: 'Force docker image creation regardless of if upstream is modified.'
+        description: 'Force docker image build.'
         default: false
         required: false
         type: boolean
