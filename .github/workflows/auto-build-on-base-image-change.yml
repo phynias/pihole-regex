@@ -8,11 +8,12 @@ on:
   schedule:
     - cron: "0 23 * * *"
   workflow_dispatch:
-    force_build:
-      description: 'Force docker image creation regardless of if upstream is modified.'
-      default: false
-      required: false
-      type: bool
+    inputs:
+      force_build:
+        description: 'Force docker image creation regardless of if upstream is modified.'
+        default: false
+        required: false
+        type: bool
 
 jobs:
   build:
