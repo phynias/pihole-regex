@@ -13,7 +13,7 @@ on:
         description: 'Force docker image creation regardless of if upstream is modified.'
         default: false
         required: false
-        type: bool
+        type: boolean
 
 jobs:
   build:
