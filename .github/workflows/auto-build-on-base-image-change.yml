@@ -35,13 +35,12 @@ jobs:
       # because a clean exit can't be triggered within a job it seems
       # (a cancellation is NOT the same and triggers a failure email)
       # see also https://github.com/actions/runner/issues/662
-
       - name: Login to DockerHub
         uses: docker/login-action@v1
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-        if: ${{ steps.baseupdatecheck.outputs.needs-updating == 'true' || inputs.force_build == 'true' }}
+        if: ${{ steps.baseupdatecheck.outputs.needs-updating == 'true' || github.event.inputs.force_build == 'true' }}
 
       - name: Build and push Docker images
         uses: docker/build-push-action@v2.10.0
@@ -49,4 +48,4 @@ jobs:
           context: "${{ github.workspace }}"
           push: true
           tags: phynias/pihole-regex:latest # update for your image
-        if: steps.baseupdatecheck.outputs.needs-updating == 'true'
+        if: ${{ steps.baseupdatecheck.outputs.needs-updating == 'true' || github.event.inputs.force_build == 'true' }}
