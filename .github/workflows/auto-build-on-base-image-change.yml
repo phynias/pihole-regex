@@ -25,7 +25,7 @@ jobs:
 
       - name: Docker Image Update Checker
         id: baseupdatecheck
-        uses: lucacome/docker-image-update-checker@v1.1.0
+        uses: lucacome/docker-image-update-checker@v1.2.1
         with:
           base-image: pihole/pihole:latest
           image: phynias/pihole-regex # update for your image
@@ -36,14 +36,14 @@ jobs:
       # (a cancellation is NOT the same and triggers a failure email)
       # see also https://github.com/actions/runner/issues/662
       - name: Login to DockerHub
-        uses: docker/login-action@v1
+        uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
         if: ${{ steps.baseupdatecheck.outputs.needs-updating == 'true' || github.event.inputs.force_build == 'true' }}
 
       - name: Build and push Docker images
-        uses: docker/build-push-action@v2.10.0
+        uses: docker/build-push-action@v5
         with:
           context: "${{ github.workspace }}"
           push: true
