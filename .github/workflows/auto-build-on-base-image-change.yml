@@ -27,7 +27,7 @@ jobs:
         id: baseupdatecheck
         uses: lucacome/docker-image-update-checker@v1.1.0
         with:
-          base-image: arevindh/pihole:latest
+          base-image: pihole/pihole:latest
           image: phynias/pihole-regex # update for your image
 
       # only execute subsequent steps if an update is actually NEEDED.
