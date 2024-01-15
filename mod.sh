@@ -1,5 +1,6 @@
 #!/bin/bash
 LOG_FILE="/var/log/pimod.log"
+git config --global advice.detachedHead false
 
 help() {
     echo "(Re)install Latest Speedtest Mod."
