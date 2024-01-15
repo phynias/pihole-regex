@@ -1,7 +1,7 @@
 #########################################
 # Build stage
 #########################################
-FROM arevindh/pihole:latest
+FROM pihole/pihole:latest
 
 RUN apt-get update && \
     apt-get install -y python3-minimal && \
