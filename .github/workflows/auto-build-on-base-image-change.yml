@@ -16,7 +16,7 @@ on:
         type: boolean
 
 jobs:
-  build:
+  check-build:
     runs-on: ubuntu-latest
     steps:
 
@@ -28,7 +28,7 @@ jobs:
 
       - name: Check if the base image has been updated
         run: |
-          LATEST_DIGEST=$(docker inspect --format='{{.RootFS}}' pihole/pihole:latest)
+          LATEST_DIGEST=$(docker inspect --format='{{index .RepoDigests 0}}' pihole/pihole:latest)
           echo "LATEST_DIGEST=$LATEST_DIGEST" >> $GITHUB_ENV
           echo "BASE_IMAGE_UPDATED=false" >> $GITHUB_ENV
           if [[ "$LATEST_DIGEST" != "$${{ vars.BASE_IMAGE_DIGEST }}" ]]; then
