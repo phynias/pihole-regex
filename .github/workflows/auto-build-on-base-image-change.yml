@@ -38,11 +38,6 @@ jobs:
             echo "Base image has not been updated."
           fi
 
-      - run: |
-            gh variable list
-        env:
-          GITHUB_TOKEN: ${{ secrets.PAT }}
-
       # only execute subsequent steps if an update is actually NEEDED.
       # unfortunately we need to add an if-condition to all steps now
       # because a clean exit can't be triggered within a job it seems
@@ -63,4 +58,11 @@ jobs:
           tags: phynias/pihole-regex:latest # update for your image
         if: ${{ env.BASE_IMAGE_UPDATED == 'true' || github.event.inputs.force_build == 'true' }}
 
-        
+      - name: Update digest var
+        run: |
+             gh variable set BASE_IMAGE_DIGEST --body "${{ env.LATEST_DIGEST }}"
+             gh variable list
+         env:
+           GITHUB_TOKEN: ${{ secrets.PAT }}
+         if: ${{ env.BASE_IMAGE_UPDATED == 'true' || github.event.inputs.force_build == 'true' }}
+ 
