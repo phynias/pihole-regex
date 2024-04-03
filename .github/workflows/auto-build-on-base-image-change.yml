@@ -23,12 +23,25 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v4
 
-      - name: Docker Image Update Checker
-        id: baseupdatecheck
-        uses: lucacome/docker-image-update-checker@v1.2.1
-        with:
-          base-image: pihole/pihole:latest
-          image: phynias/pihole-regex # update for your image
+      - name: Pull the latest base image
+        run: docker pull pihole/pihole:latest
+
+      - name: Check if the base image has been updated
+        run: |
+          LATEST_DIGEST=$(docker inspect --format='{{.RootFS}}' pihole/pihole:latest)
+          echo "LATEST_DIGEST=$LATEST_DIGEST" >> $GITHUB_ENV
+          echo "BASE_IMAGE_UPDATED=false" >> $GITHUB_ENV
+          if [[ $LATEST_DIGEST != $(cat $${{ vars.base_image_digest }}) ]]; then
+            echo "Base image has been updated."
+            echo "BASE_IMAGE_UPDATED=true" >> $GITHUB_ENV
+          else
+            echo "Base image has not been updated."
+          fi
+
+      - run: |
+            gh variable list
+        env:
+          GITHUB_TOKEN: ${{ secrets.FULL_PAT }}
 
       # only execute subsequent steps if an update is actually NEEDED.
       # unfortunately we need to add an if-condition to all steps now
@@ -40,7 +53,7 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-        if: ${{ steps.baseupdatecheck.outputs.needs-updating == 'true' || github.event.inputs.force_build == 'true' }}
+        if: ${{ env.BASE_IMAGE_UPDATED == 'true' || github.event.inputs.force_build == 'true' }}
 
       - name: Build and push Docker images
         uses: docker/build-push-action@v5
@@ -48,4 +61,6 @@ jobs:
           context: "${{ github.workspace }}"
           push: true
           tags: phynias/pihole-regex:latest # update for your image
-        if: ${{ steps.baseupdatecheck.outputs.needs-updating == 'true' || github.event.inputs.force_build == 'true' }}
+        if: ${{ env.BASE_IMAGE_UPDATED == 'true' || github.event.inputs.force_build == 'true' }}
+      - name: Update digest
+        
