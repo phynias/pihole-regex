@@ -62,5 +62,5 @@ jobs:
           push: true
           tags: phynias/pihole-regex:latest # update for your image
         if: ${{ env.BASE_IMAGE_UPDATED == 'true' || github.event.inputs.force_build == 'true' }}
-      - name: Update digest
+
         
