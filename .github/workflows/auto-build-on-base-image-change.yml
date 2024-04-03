@@ -60,9 +60,9 @@ jobs:
 
       - name: Update digest var
         run: |
-             gh variable set BASE_IMAGE_DIGEST --body "${{ env.LATEST_DIGEST }}"
-             gh variable list
-         env:
-           GITHUB_TOKEN: ${{ secrets.PAT }}
-         if: ${{ env.BASE_IMAGE_UPDATED == 'true' || github.event.inputs.force_build == 'true' }}
+          gh variable set BASE_IMAGE_DIGEST --body "${{ env.LATEST_DIGEST }}"
+          gh variable list
+        env:
+          GITHUB_TOKEN: ${{ secrets.PAT }}
+        if: ${{ env.BASE_IMAGE_UPDATED == 'true' || github.event.inputs.force_build == 'true' }}
  
