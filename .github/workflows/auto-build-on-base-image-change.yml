@@ -30,9 +30,6 @@ jobs:
           base-image: pihole/pihole:latest
           image: phynias/pihole-regex # update for your image
 
-      - name: Check result
-        run: echo "Needs updating: ${{ steps.baseupdatecheck.outputs.needs-updating }}"
-
       # only execute subsequent steps if an update is actually NEEDED.
       # unfortunately we need to add an if-condition to all steps now
       # because a clean exit can't be triggered within a job it seems
