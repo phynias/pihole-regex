@@ -41,7 +41,7 @@ jobs:
       - run: |
             gh variable list
         env:
-          GITHUB_TOKEN: ${{ github.token }}
+          GITHUB_TOKEN: ${{ secrets.PAT }}
 
       # only execute subsequent steps if an update is actually NEEDED.
       # unfortunately we need to add an if-condition to all steps now
