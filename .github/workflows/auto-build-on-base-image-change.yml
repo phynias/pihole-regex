@@ -28,7 +28,7 @@ jobs:
         uses: lucacome/docker-image-update-checker@v1.2.1
         with:
           base-image: pihole/pihole:latest
-          image: phynias/pihole-regex:latest # update for your image
+          image: phynias/pihole-regex # update for your image
 
       - name: Check result
         run: echo "Needs updating?: ${{ steps.baseupdatecheck.outputs.needs-updating }}"
