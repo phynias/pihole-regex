@@ -31,7 +31,7 @@ jobs:
           LATEST_DIGEST=$(docker inspect --format='{{.RootFS}}' pihole/pihole:latest)
           echo "LATEST_DIGEST=$LATEST_DIGEST" >> $GITHUB_ENV
           echo "BASE_IMAGE_UPDATED=false" >> $GITHUB_ENV
-          if [[ $LATEST_DIGEST != $${{ vars.BASE_IMAGE_DIGEST }} ]]; then
+          if [[ "$LATEST_DIGEST" != "$${{ vars.BASE_IMAGE_DIGEST }}" ]]; then
             echo "Base image has been updated!"
             echo "BASE_IMAGE_UPDATED=true" >> $GITHUB_ENV
           else
