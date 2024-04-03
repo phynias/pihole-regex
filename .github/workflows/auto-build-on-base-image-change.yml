@@ -3,7 +3,7 @@
 #   .github/workflows/auto-build-on-base-image-change.yml
 #
 
-name: Regular base image update check
+name: Image update check
 on:
   schedule:
     - cron: "0 23 * * *"
@@ -31,11 +31,11 @@ jobs:
           LATEST_DIGEST=$(docker inspect --format='{{.RootFS}}' pihole/pihole:latest)
           echo "LATEST_DIGEST=$LATEST_DIGEST" >> $GITHUB_ENV
           echo "BASE_IMAGE_UPDATED=false" >> $GITHUB_ENV
-          if [[ $LATEST_DIGEST != $(cat $${{ vars.base_image_digest }}) ]]; then
-            echo "Base image has been updated."
+          if [[ $LATEST_DIGEST != $${{ vars.BASE_IMAGE_DIGEST }} ]]; then
+            echo "Base image has been updated!"
             echo "BASE_IMAGE_UPDATED=true" >> $GITHUB_ENV
           else
-            echo "Base image has not been updated."
+            echo "Base image has NOT been updated."
           fi
 
       # only execute subsequent steps if an update is actually NEEDED.
