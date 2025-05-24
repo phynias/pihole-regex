@@ -28,7 +28,6 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-        if: ${{ env.BASE_IMAGE_UPDATED == 'true' || github.event.inputs.force_build == 'true' }}
 
       - name: Pull the latest base image
         run: docker pull pihole/pihole:latest
